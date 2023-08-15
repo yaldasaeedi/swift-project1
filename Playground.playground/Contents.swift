@@ -42,14 +42,21 @@ let num = 1...6
 var student: [String: Any] = [:]
 //using set
 var studentsID = Set<Int>()
-func hi() -> Int{
+
+var hi = { ()->Int in 
+
   print("hi, welcome to my school manager!\nPlease enter the option you want:\n1: updating\n2: average of scores\n3: list of student\n4: adding a new student\n5: deleting a student\n 6: sort by score\n 7:sort by name\n")
   if let input =  readLine(){
+
     if let number = Int(input) {
+
         print("You entered: \(number)")
+
         return number
     } else {
+
         print("Invalid input. Please enter a valid number.")
+
         return 0
     }
   } else {
@@ -57,14 +64,14 @@ func hi() -> Int{
     return 0
   }
 }
-func goToOption(){
+func goToOption (action1: () -> Void, action2: () -> Void){
   var theOption : Int
   theOption = hi()
   switch theOption{
     case 1:
-      update()
+      action1()
     case 2:
-      showAverage()
+      action2()
     case 3:
       break
     case 4:
@@ -79,8 +86,20 @@ func goToOption(){
       theOption = hi()
   }
 }
-
-func update(){
+var update : (() -> Void) = {}
+var showAverage : (() -> Void) = {}
+showAverage = {
+  averageScore = averageScore / 6
+  if averageScore >= 17 {
+    print("your students are average is excellent")
+  } else if averageScore >= 14 && averageScore < 17 {
+    print("your students are average is good")
+  } else {
+    print("most of your student needs more exercise")
+  }
+  goToOption(action1: update, action2:showAverage)
+}
+update = { 
   for i in num {
     student = allStudent[i - 1]
     if let totalScore = student["totalScore"] as? Double {
@@ -95,17 +114,5 @@ func update(){
      print("Total Score is not available.")
     }
   }
-  goToOption()
-}
-
-func showAverage(){
-  averageScore = averageScore / 6
-  if averageScore >= 17 {
-    print("your students are average is excellent")
-  } else if averageScore >= 14 && averageScore < 17 {
-    print("your students are average is good")
-  } else {
-    print("most of your student needs more exercise")
-  }
-  goToOption()
+  goToOption(action1: update, action2:showAverage)
 }
