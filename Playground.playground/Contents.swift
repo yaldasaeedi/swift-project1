@@ -42,29 +42,77 @@ let num = 1...6
 var student: [String: Any] = [:]
 //using set
 var studentsID = Set<Int>()
-for i in num {
-  student = allStudent[i - 1]
-  if let totalScore = student["totalScore"] as? Double {
-    scores.append(totalScore)
-    averageScore += totalScore
+
+var hi = { ()->Int in 
+
+  print("hi, welcome to my school manager!\nPlease enter the option you want:\n1: updating\n2: average of scores\n3: list of student\n4: adding a new student\n5: deleting a student\n 6: sort by score\n 7:sort by name\n")
+  if let input =  readLine(){
+
+    if let number = Int(input) {
+
+        print("You entered: \(number)")
+
+        return number
+    } else {
+
+        print("Invalid input. Please enter a valid number.")
+
+        return 0
+    }
   } else {
-    print("Total Score is not available.")
-  }
-  if let ID = student["studentID"] as? Int {
-    studentsID.insert(ID)
-  } else {
-    print("Total Score is not available.")
+    print("No input provided.")
+    return 0
   }
 }
-
-averageScore = averageScore / 6
-
-if averageScore >= 17 {
-  print("your students are average is excellent")
-} else if averageScore >= 14 && averageScore < 17 {
-  print("your students are average is good")
-} else {
-  print("most of your student needs more exercise")
+func goToOption (action1: () -> Void, action2: () -> Void){
+  var theOption : Int
+  theOption = hi()
+  switch theOption{
+    case 1:
+      action1()
+    case 2:
+      action2()
+    case 3:
+      break
+    case 4:
+      break
+    case 5:
+      break
+    case 6:
+      break
+    case 7:
+      break
+    default: 
+      theOption = hi()
+  }
 }
-
-// i will use switch case for having a welcome and selection page 
+var update : (() -> Void) = {}
+var showAverage : (() -> Void) = {}
+showAverage = {
+  averageScore = averageScore / 6
+  if averageScore >= 17 {
+    print("your students are average is excellent")
+  } else if averageScore >= 14 && averageScore < 17 {
+    print("your students are average is good")
+  } else {
+    print("most of your student needs more exercise")
+  }
+  goToOption(action1: update, action2:showAverage)
+}
+update = { 
+  for i in num {
+    student = allStudent[i - 1]
+    if let totalScore = student["totalScore"] as? Double {
+      scores.append(totalScore)
+      averageScore += totalScore
+   } else {
+    print("Total Score is not available.")
+   }
+    if let ID = student["studentID"] as? Int {
+     studentsID.insert(ID)
+    } else {
+     print("Total Score is not available.")
+    }
+  }
+  goToOption(action1: update, action2:showAverage)
+}
