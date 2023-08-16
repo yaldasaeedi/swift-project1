@@ -1,31 +1,40 @@
-//simple project1 for day1
-import Foundation
-let name = "yalda"
-let age = 20
-let hight = 158.50
-let student = true
-let number: UInt64 = 9335575294
-let formattedNumber = String(format: "%011llu", number) //chon kheili adade bozorgie intori minevisan
-
-print ("hello \(name) your age is \(age) your hight is \(hight) and your number is \(formattedNumber)")
-if student{
-    print("you are student")
-}else{
-    print("you are not student")
+//using enum
+enum major{
+  case computer_engineering
+  case electrical_engineering
+  case biomedical_engineering
+  case mechanical_engineering
+  case french_literature
+  case psychology
+  case architecture
+  case painting
 }
-let sName : String
-sName = "Unknown"
-var iAge : Int 
-iAge = 55
-iAge = 54
-let dHight : Double
-dHight = 184.7234
-let bStudent : Bool = false
-let iNumber: UInt64 = 9234534869
-let iFormattedNumber = String(format: "%011llu", iNumber) 
-print ("hello \(sName) your age is \(iAge) your hight is \(dHight) and your number is \(iFormattedNumber)")
-if bStudent{
-    print("you are student")
-}else{
-    print("you are not student")
+//using dictionary
+let studentInfo1: [String: Any] = ["name": "yalda", "age": 20, "totalScore": 18.56, "studentID" : 1, "major" : major.computer_engineering] 
+let studentInfo2: [String: Any] = ["name": "sara", "age": 23, "totalScore": 17.02, "studentID" : 2, "major" : major.biomedical_engineering]
+let studentInfo3: [String: Any] = ["name": "sina", "age": 21, "totalScore": 16.66, "studentID" : 3, "major" : major.electrical_engineering]
+let studentInfo4: [String: Any] = ["name": "nima", "age": 22, "totalScore": 17.34, "studentID" : 4, "major" : major.painting]
+let studentInfo5: [String: Any] = ["name": "bahar", "age": 24, "totalScore": 14.32, "studentID" : 5, "major": major.psychology]
+let studentInfo6: [String: Any] = ["name": "zeynab", "age": 25, "totalScore": 15.78, "studentID" : 6, "major" : major.french_literature]
+//using arrey
+var allStudent = [studentInfo1, studentInfo2, studentInfo3, studentInfo4, studentInfo5, studentInfo6]
+var scores: [Double] = []
+let num = 1...6
+var student: [String: Any] = [:]
+//using set
+var studentsID = Set<Int>() 
+for i in num {
+    student = allStudent[i - 1]
+    if let totalScore = student["totalScore"] as? Double {
+        scores.append(totalScore)
+    } else {
+        print("Total Score is not available.")
+    }
+    if let ID = student["studentID"] as? Int {
+        studentsID.insert(ID)
+    } else {
+        print("Total Score is not available.")
+    }
 }
+print(studentsID)
+print(scores)
